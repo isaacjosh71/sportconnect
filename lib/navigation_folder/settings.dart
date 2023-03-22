@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:sport_connect/navigation_folder/change_email.dart';
 import '../Helpers/designs.dart';
 import '../auth_folder/auth_log_in.dart';
 import '../helpers/services.dart';
+import 'change_password.dart';
 
 
 class Settings extends StatelessWidget {
@@ -60,7 +62,9 @@ class Settings extends StatelessWidget {
                 ),
                 SizedBox(height: Designs.sizedBox40),
                 GestureDetector(
-                  onTap: (){},
+                  onTap: (){
+                    Get.to(ChangeEmail());
+                  },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
@@ -73,7 +77,9 @@ class Settings extends StatelessWidget {
                 ),
                 SizedBox(height: Designs.sizedBox40),
                 GestureDetector(
-                  onTap: (){},
+                  onTap: (){
+                    Get.to(const ChangePassword());
+                  },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

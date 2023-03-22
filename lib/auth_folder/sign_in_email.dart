@@ -179,9 +179,14 @@ class _SignInState extends State<SignIn> {
                     Padding(
                       padding: EdgeInsets.only(
                           left: Designs.leftPadding175),
-                      child: Text('Forgot Password?',
-                        style: TextStyle(
-                          fontSize: 14.5, color: Color(0xFF767676),
+                      child: GestureDetector(
+                        onTap: (){
+
+                        },
+                        child: Text('Forgot Password?',
+                          style: TextStyle(
+                            fontSize: 14.5, color: Color(0xFF767676),
+                          ),
                         ),
                       )
                     ),
