@@ -403,7 +403,7 @@ class _SelectSportsState extends State<SelectSports> {
                         color: Colors.white,
                         fontSize: Designs.fontSize17),),
                   onPressed: (){
-                    //using CRUD system, sending fav sports to the current logged in user to the database
+                    //using CRUD system, sending fav sport to the current logged in user to the database
                       FirebaseFirestore.instance.collection('selection').doc(auth.currentUser!.uid).collection('fav_sports').add(
                           {'football':_select1,
                             'swimming':_select2,
