@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
           fontFamily: 'Poppins',
           primaryColor: const Color(0xFF05070A)
       ),
-      home: const SelectSports()
+      home: currentPage
     );
   }
 }

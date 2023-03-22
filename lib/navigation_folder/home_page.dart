@@ -1,11 +1,15 @@
 
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sport_connect/helpers/ad.dart';
 import '../Helpers/designs.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../helpers/services.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -23,10 +27,12 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     loadImage();
   }
-
+  static final FirebaseAuth auth= FirebaseAuth.instance;
   final ImagePicker _picker = ImagePicker();
-
   String? _imagePath;
+
+
+
 
 
   @override
@@ -75,13 +81,28 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(width: 7,),
                 Padding(
                   padding: EdgeInsets.only(top: Designs.topPadding37),
-                  child: Text('Hi Joshua',
-                    style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF0F0F0F),
-                        fontSize: Designs.fontSize17
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Hi',
+                        style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontWeight: FontWeight.w500,
+                            color: const Color(0xFF0F0F0F),
+                            fontSize: Designs.fontSize17
+                        ),
+                      ),
+                      SizedBox(width: 3,),
+                      Text('User',
+                        style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontWeight: FontWeight.w500,
+                            color: const Color(0xFF0F0F0F),
+                            fontSize: Designs.fontSize17
+                        ),
+                      ),
+                    ],
                   ),
                 )
               ],
