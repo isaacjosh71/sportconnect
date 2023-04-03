@@ -39,9 +39,8 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
         //using CRUD system, sending registration data of the current logged in user to the database
         //only username required at the moment
         if(_nameController.text.isNotEmpty){
-          FirebaseFirestore.instance.collection('register').doc(auth.currentUser!.uid).collection('this_user').add(
-              {'username':_nameController.text,
-              }
+          FirebaseFirestore.instance.collection('register').doc(auth.currentUser!.uid).set(
+              {'username':_nameController.text,}
           );
           setState((){
             circular = false;
@@ -49,7 +48,6 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
           Get.off(const SelectSports());
         }else if(_nameController.text.isEmpty){
           Get.snackbar('Required', 'Username field is required!',
-              snackPosition: SnackPosition.BOTTOM,
               icon: const Icon(Icons.warning_amber_rounded)
           );
           setState((){

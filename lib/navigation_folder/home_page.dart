@@ -3,13 +3,10 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sport_connect/helpers/ad.dart';
 import '../Helpers/designs.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../helpers/services.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -20,8 +17,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
-  XFile? image;
-
   @override
   void initState() {
     super.initState();
@@ -30,9 +25,8 @@ class _ProfilePageState extends State<ProfilePage> {
   static final FirebaseAuth auth= FirebaseAuth.instance;
   final ImagePicker _picker = ImagePicker();
   String? _imagePath;
-
-
-
+  XFile? image;
+  String? userName;
 
 
   @override
@@ -93,14 +87,23 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontSize: Designs.fontSize17
                         ),
                       ),
-                      SizedBox(width: 3,),
-                      Text('User',
-                        style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xFF0F0F0F),
-                            fontSize: Designs.fontSize17
-                        ),
+                      const SizedBox(width: 5,),
+                      FutureBuilder(
+                          future: _fetch(),
+                          builder: (context,snapshot){
+                            if(snapshot.connectionState!=ConnectionState.done){
+                              return const Text('...');}
+                            else {
+                              return Text('$userName',
+                              style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFF0F0F0F),
+                                  fontSize: Designs.fontSize17
+                              ),
+                            );
+                            }
+                          }
                       ),
                     ],
                   ),
@@ -119,13 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               const Ads(),
               SizedBox(height: Designs.sizedBox20,),
-              Container(
-                color: Colors.redAccent,
-              ),Container(
-                color: Colors.redAccent,
-              ),Container(
-                color: Colors.redAccent,
-              ),
+
             ],
           ),
         ),
@@ -152,5 +149,14 @@ class _ProfilePageState extends State<ProfilePage> {
       _imagePath = saveImage.getString('imagePath');
     });
   }
+
+  _fetch() async{
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    FirebaseFirestore.instance.collection('register').doc(auth.currentUser!.uid)
+        .get().then((ds){
+          userName = ds.get('username');
+          print(userName);
+    });
+}
 
 }
