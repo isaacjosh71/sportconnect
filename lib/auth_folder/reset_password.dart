@@ -10,17 +10,16 @@ import 'package:sport_connect/auth_folder/complete_registration.dart';
 
 import '../helpers/designs.dart';
 
-class ChangeEmail extends StatefulWidget {
-  const ChangeEmail({Key? key}) : super(key: key);
+class Reset extends StatefulWidget {
+  const Reset({Key? key}) : super(key: key);
 
   @override
-  State<ChangeEmail> createState() => _ChangeEmailState();
+  State<Reset> createState() => _ResetState();
 }
 
-class _ChangeEmailState extends State<ChangeEmail> {
-  final currentUser = FirebaseAuth.instance.currentUser;
+class _ResetState extends State<Reset> {
+  final currentUser = FirebaseAuth.instance;
   final TextEditingController _mailController = TextEditingController();
-  var newEmail = '';
   bool circular = false;
   bool buttonIsActive = false;
   @override
@@ -43,11 +42,8 @@ class _ChangeEmailState extends State<ChangeEmail> {
           if(mail.isEmpty || !GetUtils.isEmail(mail)){
             Get.snackbar('Email', 'Please type in a valid email');}
           else{
-            setState((){
-              newEmail = _mailController.text;
-            });
-            await currentUser?.updateEmail(newEmail);
-            FirebaseAuth.instance.signOut();
+            await currentUser.sendPasswordResetEmail(email: _mailController.text.trim());
+            Get.snackbar('Reset Email', 'Password reset email sent');
             setState((){
               circular = false;
             });
@@ -69,7 +65,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Change Email',
+              Text('Reset Password',
                 style: TextStyle(
                   color: Designs.blueColor,
                   fontSize: Designs.font23,
@@ -128,7 +124,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                             ),
                             child: circular ?
                             CircularProgressIndicator() :
-                            Text('Update',
+                            Text('Reset',
                               style: TextStyle(
                                   letterSpacing: 1,
                                   color: Colors.white,

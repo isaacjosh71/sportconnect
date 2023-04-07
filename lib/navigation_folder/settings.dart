@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:sport_connect/navigation_folder/change_email.dart';
+import 'package:sport_connect/navigation_folder/update_name.dart';
 import '../Helpers/designs.dart';
 import '../auth_folder/auth_log_in.dart';
 import '../helpers/services.dart';
@@ -46,7 +47,9 @@ class Settings extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 GestureDetector(
-                  onTap: (){},
+                  onTap: (){
+                    Get.to(const UpdateUsername());
+                  },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -54,7 +57,7 @@ class Settings extends StatelessWidget {
                         'assets/svg/person.svg',
                         height: 22, width: 22,
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       const Text('Update Username', style: TextStyle(
                           fontWeight: FontWeight.w400, color: Color(0xFF1F1F1F), fontSize: 16),)
                     ],
@@ -63,7 +66,7 @@ class Settings extends StatelessWidget {
                 SizedBox(height: Designs.sizedBox40),
                 GestureDetector(
                   onTap: (){
-                    Get.to(ChangeEmail());
+                    Get.to(()=> const ChangeEmail());
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,

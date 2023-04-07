@@ -1,11 +1,9 @@
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:sport_connect/auth_folder/auth_log_in.dart';
-import 'package:sport_connect/auth_folder/complete_registration.dart';
 
 
 import '../helpers/designs.dart';
@@ -23,7 +21,6 @@ class _ChangePasswordState extends State<ChangePassword> {
 var newPassword = '';
   bool circular = false;
   bool _obscureText = true;
-  bool _reObscureText = true;
   bool buttonIsActive = false;
   @override
   void dispose(){
@@ -32,7 +29,6 @@ var newPassword = '';
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final storage = const FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     var _onPressed;
@@ -59,6 +55,7 @@ var newPassword = '';
         }
         catch(e){
           Get.snackbar('Error', e.toString());
+          print(e.toString());
           setState((){
             circular = false;
           });
@@ -92,6 +89,12 @@ var newPassword = '';
                           textInputAction: TextInputAction.next,
                           controller: _passController,
                           obscureText: _obscureText,
+                          onChanged: (value) {
+                            setState(() {
+                              buttonIsActive =
+                              value.isNotEmpty ? true : false;
+                            });
+                          },
                           key: const ValueKey('password'),
                           decoration: InputDecoration(
                             hintText: 'Password',
@@ -124,14 +127,14 @@ var newPassword = '';
                                   buttonIsActive ? Designs.blueColor : Designs.blueColor.withOpacity(0.2)
                               ),
                             ),
+                            onPressed: _onPressed,
                             child: circular ?
-                            CircularProgressIndicator() :
+                            const CircularProgressIndicator() :
                             Text('Update',
                               style: TextStyle(
                                   letterSpacing: 1,
                                   color: Colors.white,
-                                  fontSize: Designs.fontSize17),),
-                            onPressed: _onPressed),
+                                  fontSize: Designs.fontSize17),)),
                       ),
                     ],
                   ),

@@ -5,31 +5,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:sport_connect/auth_folder/auth_log_in.dart';
-import 'package:sport_connect/auth_folder/complete_registration.dart';
+import 'package:sport_connect/navigation_folder/root_page.dart';
 
 
 import '../helpers/designs.dart';
 
-class ChangeEmail extends StatefulWidget {
-  const ChangeEmail({Key? key}) : super(key: key);
+class UpdateUsername extends StatefulWidget {
+  const UpdateUsername({Key? key}) : super(key: key);
 
   @override
-  State<ChangeEmail> createState() => _ChangeEmailState();
+  State<UpdateUsername> createState() => _UpdateUsernameState();
 }
 
-class _ChangeEmailState extends State<ChangeEmail> {
-  final currentUser = FirebaseAuth.instance.currentUser;
-  final TextEditingController _mailController = TextEditingController();
-  var newEmail = '';
+class _UpdateUsernameState extends State<UpdateUsername> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final TextEditingController _nameController = TextEditingController();
+  var newUsername = '';
   bool circular = false;
   bool buttonIsActive = false;
   @override
   void dispose(){
-    _mailController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final storage = const FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     var _onPressed;
@@ -38,24 +39,18 @@ class _ChangeEmailState extends State<ChangeEmail> {
         setState((){
           circular = true;
         });
-        try {
-          String mail = _mailController.text.trim();
-          if(mail.isEmpty || !GetUtils.isEmail(mail)){
-            Get.snackbar('Email', 'Please type in a valid email');}
-          else{
-            setState((){
-              newEmail = _mailController.text;
-            });
-            await currentUser?.updateEmail(newEmail);
-            FirebaseAuth.instance.signOut();
-            setState((){
-              circular = false;
-            });
-            Get.off(const AuthLogIn());
-          }
-        }
-        catch(e){
-          Get.snackbar('Error', e.toString());
+        if(_nameController.text.isNotEmpty){
+          FirebaseFirestore.instance.collection('register').doc(auth.currentUser!.uid).update(
+              {'username':_nameController.text,}
+          );
+          setState((){
+            circular = false;
+          });
+          Get.off(()=> const RootPage());
+        }else if(_nameController.text.isEmpty){
+          Get.snackbar('Required', 'Username field is required!',
+              icon: const Icon(Icons.warning_amber_rounded)
+          );
           setState((){
             circular = false;
           });
@@ -69,14 +64,14 @@ class _ChangeEmailState extends State<ChangeEmail> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Change Email',
+              Text('Change Username',
                 style: TextStyle(
                   color: Designs.blueColor,
                   fontSize: Designs.font23,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Center(
                 child: Form(
                   key: _formKey,
@@ -87,8 +82,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                       TextFieldContainer(
                         child: TextFormField(
                           textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.emailAddress,
-                          controller: _mailController,
+                          controller: _nameController,
                           onChanged: (value) {
                             setState(() {
                               buttonIsActive =
@@ -96,15 +90,15 @@ class _ChangeEmailState extends State<ChangeEmail> {
                             });
                           },
                           decoration: InputDecoration(
-                            hintText: 'Email',
+                            hintText: 'New Username',
                             hintStyle: const TextStyle(
                               color: Colors.grey,
                               fontSize: 16,
                             ),
-                            prefixIcon: Icon(Icons.mail, size: 18,
+                            border: InputBorder.none,
+                            prefixIcon: Icon(Icons.person, size: 18,
                               color: Designs.blueColor.withOpacity(0.55),
                             ),
-                            border: InputBorder.none,
                           ),
                         ),
                       ),
@@ -126,14 +120,14 @@ class _ChangeEmailState extends State<ChangeEmail> {
                                   buttonIsActive ? Designs.blueColor : Designs.blueColor.withOpacity(0.2)
                               ),
                             ),
+                            onPressed: _onPressed,
                             child: circular ?
-                            CircularProgressIndicator() :
+                            const CircularProgressIndicator() :
                             Text('Update',
                               style: TextStyle(
                                   letterSpacing: 1,
                                   color: Colors.white,
-                                  fontSize: Designs.fontSize17),),
-                            onPressed: _onPressed),
+                                  fontSize: Designs.fontSize17),)),
                       ),
                     ],
                   ),

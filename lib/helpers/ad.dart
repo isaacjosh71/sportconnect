@@ -9,7 +9,7 @@ class Ads extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 150, width: 350,
+      height: Designs.height150, width: Designs.width350,
       child: Card(
         color: Designs.blueColor.withOpacity(0.9),
         elevation: 1.7,
@@ -36,7 +36,7 @@ class Ads extends StatelessWidget {
                       children: [
                         AnimatedTextKit(
                           animatedTexts: [
-                            WavyAnimatedText('Sportconnect',
+                            WavyAnimatedText('SportConnect',
                                 textAlign: TextAlign.justify,
                                 textStyle: const TextStyle(
                                     letterSpacing: 1,
@@ -107,9 +107,9 @@ class Ads extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 130),
+                padding: EdgeInsets.only(left: Designs.height150),
                 child: Image.asset('assets/images/ad.png',
-                  height: 200,
+                  height: Designs.imageHeight200,
                 ),
               )
             ],

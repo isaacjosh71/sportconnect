@@ -13,7 +13,7 @@ class Designs {
 
   static TextStyle primaryFont = const TextStyle(
       color: Color(0xFF05070A),
-      fontSize: 16,
+      fontSize: 15,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal
   );

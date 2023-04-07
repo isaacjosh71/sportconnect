@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sport_connect/auth_folder/choose_sport.dart';
-import 'package:sport_connect/navigation_folder/root_page.dart';
 import '../helpers/designs.dart';
 
 class CompleteRegistration extends StatefulWidget {

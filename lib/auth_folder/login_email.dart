@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:sport_connect/auth_folder/complete_registration.dart';
 import 'package:sport_connect/auth_folder/phone_sign_up.dart';
+import 'package:sport_connect/auth_folder/reset_password.dart';
 import 'package:sport_connect/navigation_folder/root_page.dart';
 
 import '../helpers/designs.dart';
@@ -136,9 +137,14 @@ class _LogInEmailState extends State<LogInEmail> {
                 Padding(
                     padding: EdgeInsets.only(
                         left: Designs.leftPadding175),
-                    child: Text('Forgot Password?',
-                      style: TextStyle(
-                        fontSize: Designs.font14, color: Color(0xFF767676),
+                    child: GestureDetector(
+                      onTap: (){
+                        Get.to(()=> Reset());
+                      },
+                      child: Text('Forgot Password?',
+                        style: TextStyle(
+                          fontSize: Designs.font14, color: Color(0xFF767676),
+                        ),
                       ),
                     )
                 ),
